@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Elementary tasks</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="src/data.js" defer></script>
+  <script src="src/task1.js" defer></script>
+  <script src="src/task2.js" defer></script>
+  <script src="src/task3.js" defer></script>
+  <script src="src/task4.js" defer></script>
+  <script src="src/task5.js" defer></script>
+  <script src="src/task6.js" defer></script>
+  <script src="src/task7.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <h1 class="text-center p-3">Задания</h1>
+    <nav class="nav nav-pills flex-column flex-sm-row">
+      <a class="flex-sm-fill text-sm-center nav-link active" href="https://www.softserveinc.com">Task 1</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="https://www.softserveinc.com">Task 2</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="https://www.softserveinc.com">Task 3</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="https://www.softserveinc.com">Task 4</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="https://www.softserveinc.com">Task 5</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="https://www.softserveinc.com">Task 6</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="https://www.softserveinc.com">Task 7</a>
+    </nav>
+    <h2 class="p-3">Шахматная доска</h2>
+    <div class="alert alert-primary">
+      <h3 class="pl-3">Условие:</h3>
+      <div>
+        <p class="statement"></p>
+        <p class="inputParameters"><i>Входные параметры:</i><span class="pl-1">длина, ширина, символ для
+            отображения</span></p>
+        <p class="outputParameters"><i>Выход:</i><span class="pl-1">строка с представлением шахматной доски</span></p>
+      </div>
+    </div>
+    <form name="form" class="displayBlock">
+      <div class="row mt-3 mb-3 justify-content-center">
+        <div class="col-11">
+          <p>
+            Введите параметры через запятую без пробелов. Примеры ввода:
+          </p>
+          <ul>
+            <li>
+              task1:
+              <mark>12,4,*</mark>
+            </li>
+            <li>
+              task2:
+              <mark>20.2,20,4.87,86.432</mark>
+            </li>
+            <li>
+              task3:
+              <mark>ABC,10,20,22.36,DEF,11.6,7.1,9.99,GHK,4.1,5,7.84</mark>
+            </li>
+            <li>
+              task4:
+              <mark>1234437</mark>
+            </li>
+            <li>
+              task5:
+              <mark>123456,456789</mark>
+            </li>
+            <li>
+              task6:
+              <mark>20,81</mark>
+            </li>
+            <li>
+              task7:
+              <mark>2,34</mark> либо <mark>8</mark>
+            </li>
+          </ul>
+        </div>
+        <div class="col-8"><input class="form-control" id="inp"></div>
+      </div>
+    </form>
+    <div class="row justify-content-center">
+      <div class="col-4"><button class="btn btn-block btn-primary btn-lg" disabled>Посчитать</button></div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-8 mt-3 result">
+        <pre style="font-size: 24px" class="text-center"></pre>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
