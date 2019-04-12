@@ -61,7 +61,7 @@ function isValidParams1(arr) {
   } else {
     obj = {
       status: 'failed',
-      reason: 'количество параметров не совпадает'
+      reason: 'количество параметров не совпадает с условием'
     };
   }
   return obj;

@@ -17,6 +17,7 @@ const children = nav.children;
 index = e.target.innerText.slice(-1) - 1;
 changeTask(index);
 changeActiveClass(children, 'active', index);
+clearContent(result);
 });
 
 button.addEventListener('click', main);
@@ -41,6 +42,10 @@ for (let i = 0; i < elems.length; i++) {
   }
 }
 elems[ind].classList.add(cl);
+}
+
+function clearContent(elem){
+  elem.innerHTML = '';
 }
 
 function getParam(str) {
