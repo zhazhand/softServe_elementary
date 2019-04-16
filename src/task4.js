@@ -1,7 +1,7 @@
 function solveTask4(params) {
   let obj = isValidParams4(params);
 
-  if (obj.status === 'удачный') {
+  if (obj.status === 'успех') {
     return checkNumber(obj.element);
   }
   return JSON.stringify(obj);
@@ -13,19 +13,22 @@ function checkNumber(param) {
   let arr = [];
 
   for (let j = 0; j < str.length; j++) {
-    let tmpStr = str.slice(0, str.length - 1 - j); //temporary let
-    if (tmpStr.indexOf(str[str.length - 1 - j]) == -1) {
-      continue
-    } else {
-      let newStr = str.slice(str.indexOf(str[str.length - 1 - j]), str.length - j);
+    let strEnd = str.length - j;
+
+    for (let i = 0; i < strEnd; i++) {
+
+      let newStr = str.slice(i, strEnd);
       let checkedStr = isPalindrome(newStr);
+
       if (checkedStr && checkedStr > 10) {
         arr.push(checkedStr);
+        break;
       }
     }
+
   }
   arr = arr.map((item) => parseInt(item));
-  return arr.length ? findMax(arr) : arr.length;
+  return arr.length > 0 ? findMax(arr) : arr.length;
 }
 
 //checking (temporary) string on palindrome 
@@ -37,13 +40,14 @@ function isPalindrome(checkingStr) {
       flag = false;
       break
     }
+
   }
-  return flag ? checkingStr : 0;
+  return flag ? checkingStr : flag;
 }
 
 function findMax(arr) {
   let maxElement = arr[0];
-  
+
   for (let i = 1; i < arr.length; i++) {
     if (arr[i] > maxElement) {
       maxElement = arr[i]
@@ -53,26 +57,18 @@ function findMax(arr) {
 }
 
 function isValidParams4(array) {
-  let obj = {};
   const pattern = /^\d+$/;
 
-  if (array.length === 1) {
+  let obj = isValidParamsLength(array, 1);
+
+  if (obj.status === 'успех') {
+
     if (pattern.test(array[0])) {
-      obj = {
-        status: 'удачный',
-        element: array[0]
-      };
+      obj.element = array[0];
     } else {
-      obj = {
-        status: 'неудачный',
-        reason: 'неверные входные параметры'
-      };
+      obj.status = 'неудача';
+      obj.reason = 'неверные входные параметры';
     }
-  } else {
-    obj = {
-      status: 'неудачный',
-      reason: 'количество параметров не совпадает с условием'
-    };
   }
   return obj;
 }

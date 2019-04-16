@@ -1,7 +1,7 @@
 function solveTask1(params) {
   let obj = isValidParams1(params);
 
-  if (obj.status === 'удачный') {
+  if (obj.status === 'успех') {
     return chessBoard(obj.width, obj.height, obj.symbol);
   }
   return JSON.stringify(obj);
@@ -45,27 +45,15 @@ function chessBoard(wid, heig, symb) {
 }
 
 function isValidParams1(arr) {
-  let obj = {};
+  let obj = isValidParamsLength(arr, 3);
 
-  if (arr.length === 3) {
-    if (deepValid1(arr)) {
-      obj = {
-        status: 'удачный',
-        width: arr[0],
-        height: arr[1],
-        symbol: arr[2]
-      };
-    } else {
-      obj = {
-        status: 'неудачный',
-        reason: 'неверные входные параметры'
-      };
+  if (obj.status === 'успех') {
+    obj = deepValid1(arr);
+    if (obj.status === 'успех') {
+      obj.width = arr[0];
+      obj.height = arr[1];
+      obj.symbol = arr[2];
     }
-  } else {
-    obj = {
-      status: 'неудачный',
-      reason: 'количество параметров не совпадает с условием'
-    };
   }
   return obj;
 }
@@ -73,9 +61,16 @@ function isValidParams1(arr) {
 function deepValid1(arr) {
   const pattern = /^\d+$/;
 
-  if (parseInt(arr[0]) && parseInt(arr[1]) && pattern.test(arr[0]) && pattern.test(arr[1]) && (arr[2].length === 1)) {
-    return true;
-  } else {
-    return false
+  let obj = {
+    status: 'успех'
+  };
+
+  if (!parseInt(arr[0]) || !parseInt(arr[1]) || !pattern.test(arr[0]) || !pattern.test(arr[1]) || !(arr[2].length === 1)) {
+    obj.status = 'неудача';
+    obj.reason = 'неверные входные параметры';
+  } else if (arr[0] > 1000 || arr[1] > 1000) {
+    obj.status = 'неудача';
+    obj.reason = 'слишком большой размер (>1000)';
   }
+  return obj;
 }

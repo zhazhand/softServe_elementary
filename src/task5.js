@@ -1,6 +1,7 @@
 function solveTask5(params) {
   let obj = isValidParams5(params);
-  if (obj.status === 'удачный') {
+
+  if (obj.status === 'успех') {
     return JSON.stringify(countLuckyTickets(obj));
   }
   return JSON.stringify(obj);
@@ -12,7 +13,7 @@ function checkEasyWay(par) {
   let part1 = str.slice(0, 3);
   let part2 = str.slice(3);
 
-  return getSum(part1) == getSum(part2) ? 1 : 0;
+  return getSum(part1) === getSum(part2) ? 1 : 0;
 }
 
 //hard way
@@ -22,10 +23,10 @@ function checkHardWay(par) {
   let arrEven = [];
 
   for (let i = 0; i < str.length; i++) {
-    str[i] % 2 ? arrOdd.push(str[i]) : arrEven.push(str[i]);
+    str[i] % 2 === 1 ? arrOdd.push(str[i]) : arrEven.push(str[i]);
   }
 
-  return getSum(arrOdd) == getSum(arrEven) ? 1 : 0;
+  return getSum(arrOdd) === getSum(arrEven) ? 1 : 0;
 
 }
 
@@ -43,27 +44,17 @@ function getSum(par) {
 
 //check input parameters
 function isValidParams5(arr) {
-  let obj = {};
   const pattern = /^\d{6}$/;
+  let obj = isValidParamsLength(arr, 2);
 
-  if (arr.length === 2) {
+  if (obj.status === 'успех') {
     if (pattern.test(arr[0]) && pattern.test(arr[1]) && arr[1] > arr[0]) {
-      obj = {
-        status: 'удачный',
-        min: arr[0],
-        max: arr[1]
-      };
+      obj.min = arr[0];
+      obj.max = arr[1];
     } else {
-      obj = {
-        status: 'неудачный',
-        reason: 'неверные входные параметры'
-      };
+      obj.status = 'неудача';
+      obj.reason = 'неверные входные параметры';
     }
-  } else {
-    obj = {
-      status: 'неудачный',
-      reason: 'количество параметров не совпадает с условием'
-    };
   }
   return obj;
 }

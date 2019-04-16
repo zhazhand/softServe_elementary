@@ -25,7 +25,7 @@ button.addEventListener('click', main);
 
 parametersOfTask.addEventListener('input', (e) => {
   let str = e.target.value;
-  e.target.value = str.replace(' ', '');
+  e.target.value = str.trim();//e.target.value = str.replace(' ', '');
   button.disabled = str ? null : true;
 })
 
