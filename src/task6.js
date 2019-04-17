@@ -1,5 +1,5 @@
 function solveTask6(params) {
-  let obj = isValidParams6(params);
+  let obj = getParams6(params);
 
   if (obj.status === 'успех') {
     return getNumSequence(obj.length, obj.max);
@@ -13,13 +13,23 @@ function isValidParams6(arr) {
   let obj = isValidParamsLength(arr, 2);
 
   if (obj.status === 'успех') {
-    if (pattern.test(arr[0]) && pattern.test(arr[1])) {
-      obj.length = arr[0];
-      obj.max = arr[1];
-    } else {
+    if (!pattern.test(arr[0]) || !pattern.test(arr[1])) {
       obj.status = 'неудача';
       obj.reason = 'неверные входные параметры';
+    } else {
+      obj = isTooMuchLength(arr[0], 40);
     }
+  }
+  return obj;
+}
+
+//get input parameters
+function getParams6(arr) {
+  let obj = isValidParams6(arr);
+
+  if (obj.status === 'успех') {
+    obj.length = arr[0];
+    obj.max = arr[1];
   }
   return obj;
 }
@@ -37,7 +47,7 @@ function getNumSequence(n, m) {
     }
     i++;
   }
-  console.log(arr)
+
   return arr.join(', ');
 
 }

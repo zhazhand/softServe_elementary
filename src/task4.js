@@ -1,5 +1,5 @@
 function solveTask4(params) {
-  let obj = isValidParams4(params);
+  let obj = getParams4(params);
 
   if (obj.status === 'успех') {
     return checkNumber(obj.element);
@@ -45,6 +45,7 @@ function isPalindrome(checkingStr) {
   return flag ? checkingStr : flag;
 }
 
+//find max element
 function findMax(arr) {
   let maxElement = arr[0];
 
@@ -56,19 +57,27 @@ function findMax(arr) {
   return maxElement
 }
 
+//check input parameters
 function isValidParams4(array) {
   const pattern = /^\d+$/;
 
   let obj = isValidParamsLength(array, 1);
 
   if (obj.status === 'успех') {
-
-    if (pattern.test(array[0])) {
-      obj.element = array[0];
-    } else {
+    if (!pattern.test(array[0])) {
       obj.status = 'неудача';
       obj.reason = 'неверные входные параметры';
     }
+  }
+  return obj;
+}
+
+//get input parameters
+function getParams4(arr) {
+  let obj = isValidParams4(arr);
+
+  if (obj.status === 'успех') {
+    obj.element = array[0];
   }
   return obj;
 }

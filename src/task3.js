@@ -20,7 +20,8 @@ function getInputData(arr) {
 
   if (obj.status === 'успех') {
     for (let i = 0; i < arr.length; i++) {
-      let index = parseInt(i / 4);let tmp = i+4;
+      let index = parseInt(i / 4);
+      let tmp = i + 4;
       if (!arrOfData[index]) {
         arrOfData[index] = {};
       }
@@ -55,14 +56,18 @@ function isValidParams3(par) {
   let data = getInputData(par);
 
   if (Array.isArray(data)) {
-    if (checkSameName(data, 'vertices') || checkSides(data)) {
-      return obj;
-    }
     for (let i = 0; i < data.length; i++) {
       let element = data[i];
       if (!regTitle.test(element.vertices) || !regSide.test(element.a) || !regSide.test(element.b) || !regSide.test(element.c)) {
-         return obj;
+        return obj;
       }
+    }
+    if (checkSameName(data, 'vertices')) {
+      obj.reason = 'совпадают имена вершин';
+      return obj;
+    } else if (checkSides(data)) {
+      obj.reason = 'сумма двух сторон не может быть меньше третьей стороны';
+      return obj;
     }
   }
   return data;
@@ -70,10 +75,13 @@ function isValidParams3(par) {
 
 //check unique name
 function checkSameName(arr, property) {
-  let unique = arr[0][property];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i][property] === unique) {
-      return true;
+
+  for (let i = 0; i < arr.length; i++) {
+    let unique = arr[i][property].toUpperCase();
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j][property].toUpperCase() === unique) {
+        return true;
+      }
     }
   }
   return false;
@@ -84,13 +92,13 @@ function checkSides(arr) {
   for (let i = 0; i < arr.length; i++) {
     let item = arr[i];
     if (parseFloat(item.a) > (parseFloat(item.b) + parseFloat(item.c)) ||
-     parseFloat(item.b) > (parseFloat(item.a) + parseFloat(item.c)) ||
-     parseFloat(item.c) > (parseFloat(item.b) + parseFloat(item.a))) {
+      parseFloat(item.b) > (parseFloat(item.a) + parseFloat(item.c)) ||
+      parseFloat(item.c) > (parseFloat(item.b) + parseFloat(item.a))) {
       return true;
     }
   }
-    return false;
-  
+  return false;
+
 }
 
 //sort
@@ -101,16 +109,13 @@ function compareNumeric(a, b) {
 //main function
 function createArray(par) {
 
-
-
   par.forEach(function (parItem) {
     parItem.area = areaOfTriangle(parItem.a, parItem.b, parItem.c);
   });
   par.sort(compareNumeric);
   let result = par.map(function (parItem) {
-    return parItem.vertices
+    return parItem.vertices.toUpperCase()
   })
   return result
-
 
 }

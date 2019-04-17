@@ -1,8 +1,8 @@
 function solveTask1(params) {
-  let obj = isValidParams1(params);
+  let obj = getParams1(params);
 
   if (obj.status === 'успех') {
-    return chessBoard(obj.width, obj.height, obj.symbol);
+    return createChessBoard(obj.width, obj.height, obj.symbol);
   }
   return JSON.stringify(obj);
 }
@@ -22,7 +22,8 @@ function solveTask1(params) {
   }
   return res
 } */
-function chessBoard(wid, heig, symb) {
+//
+function createChessBoard(wid, heig, symb) {
   let res = '';
   let flag = true;
 
@@ -44,33 +45,32 @@ function chessBoard(wid, heig, symb) {
   return res
 }
 
+//check input parameters
 function isValidParams1(arr) {
+  const pattern = /^\d+$/;
   let obj = isValidParamsLength(arr, 3);
 
   if (obj.status === 'успех') {
-    obj = deepValid1(arr);
-    if (obj.status === 'успех') {
-      obj.width = arr[0];
-      obj.height = arr[1];
-      obj.symbol = arr[2];
+    if (!parseInt(arr[0]) || !parseInt(arr[1]) || !pattern.test(arr[0]) || !pattern.test(arr[1]) || !(arr[2].length === 1)) {
+      obj.status = 'неудача';
+      obj.reason = 'неверные входные параметры';
+    } else if (arr[0] > 100 || arr[1] > 100) {
+      obj.status = 'неудача';
+      obj.reason = 'слишком большой размер (>100)';
     }
   }
   return obj;
 }
 
-function deepValid1(arr) {
-  const pattern = /^\d+$/;
+//get input parameters
+function getParams1(arr) {
+  let obj = isValidParams1(arr);
 
-  let obj = {
-    status: 'успех'
-  };
-
-  if (!parseInt(arr[0]) || !parseInt(arr[1]) || !pattern.test(arr[0]) || !pattern.test(arr[1]) || !(arr[2].length === 1)) {
-    obj.status = 'неудача';
-    obj.reason = 'неверные входные параметры';
-  } else if (arr[0] > 1000 || arr[1] > 1000) {
-    obj.status = 'неудача';
-    obj.reason = 'слишком большой размер (>1000)';
+  if (obj.status === 'успех') {
+    obj.width = arr[0];
+    obj.height = arr[1];
+    obj.symbol = arr[2];
   }
+
   return obj;
 }

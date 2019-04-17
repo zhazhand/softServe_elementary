@@ -1,5 +1,5 @@
 function solveTask5(params) {
-  let obj = isValidParams5(params);
+  let obj = getParams5(params);
 
   if (obj.status === 'успех') {
     return JSON.stringify(countLuckyTickets(obj));
@@ -48,13 +48,21 @@ function isValidParams5(arr) {
   let obj = isValidParamsLength(arr, 2);
 
   if (obj.status === 'успех') {
-    if (pattern.test(arr[0]) && pattern.test(arr[1]) && arr[1] > arr[0]) {
-      obj.min = arr[0];
-      obj.max = arr[1];
-    } else {
+    if (!pattern.test(arr[0]) || !pattern.test(arr[1]) || arr[1] < arr[0]) {
       obj.status = 'неудача';
       obj.reason = 'неверные входные параметры';
     }
+  }
+  return obj;
+}
+
+//get input parametrs
+function getParams5(arr) {
+  let obj = isValidParams5(arr);
+
+  if (obj.status === 'успех') {
+    obj.min = arr[0];
+    obj.max = arr[1];
   }
   return obj;
 }
@@ -77,7 +85,7 @@ function countLuckyTickets(par) {
 
   result.easyMethod = easyWayAmount;
   result.difficultMethod = hardWayAmount;
-  result.message = easyWayAmount > hardWayAmount ? "легкий метод победил" : (easyWayAmount < hardWayAmount ? "сложный метод победил" :
+  result.message = easyWayAmount > hardWayAmount ? "простой метод победил" : (easyWayAmount < hardWayAmount ? "сложный метод победил" :
     "оба метода равны");
 
   return result;

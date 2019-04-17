@@ -2,7 +2,7 @@ function isValidParamsLength(arr, expectedLength, flag = true) {
   let obj = {
     status: 'неудача',
     reason: 'количество параметров не совпадает с условием'
-  };;
+  };
 
   if ((flag && arr.length === expectedLength) || (!flag && (arr.length % expectedLength) === 0)) {
     obj = {
