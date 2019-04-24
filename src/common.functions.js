@@ -24,19 +24,8 @@ function isMatchPattern(arr, patrn, shift = 0, cl = 'bg-warning') {
   let flag = false;
   for (let i = 0; i < arr.length; i++) {
     if (!patrn.test(arr[i])) {
-      document.forms.myForm[i + shift].classList.add(cl);
       flag = true;
     }
   }
   return flag;
-}
-
-//count summa
-function getSum(par) {
-  let sum = 0;
-
-  for (let i = 0; i < par.length; i++) {
-    sum += parseInt(par[i]);
-  }
-  return sum;
 }

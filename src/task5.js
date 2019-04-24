@@ -1,5 +1,4 @@
 function solveTask5(params) {
-  clearFormBackground();
 
   if (isValid5(params)) {
     return JSON.stringify(isValid5(params))
@@ -26,8 +25,8 @@ function checkHardWay(par) {
   for (let i = 0; i < str.length; i++) {
     str[i] % 2 === 1 ? arrOdd.push(str[i]) : arrEven.push(str[i]);
   }
-
-  return getSum(arrOdd) === getSum(arrEven) ? 1 : 0;
+  let result = getSum(arrOdd) === getSum(arrEven) ? 1 : 0;
+  return result;
 
 }
 
@@ -57,7 +56,7 @@ function isValid5(params) {
   return false;
 }
 
-//main function
+//function define winner
 function countLuckyTickets(par) {
 
   let result = {};
@@ -79,4 +78,14 @@ function countLuckyTickets(par) {
 
   return result;
 
+}
+
+//count sum
+function getSum(par) {
+  let sum = 0;
+
+  for (let i = 0; i < par.length; i++) {
+    sum += parseInt(par[i]);
+  }
+  return sum;
 }

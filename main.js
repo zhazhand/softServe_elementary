@@ -25,12 +25,6 @@ nav.addEventListener('click', (e) => {
 
 button.addEventListener('click', main);
 
-form.addEventListener('input',(e)=>{
-  if(e.target.classList.contains('bg-warning')){
-    e.target.classList.remove('bg-warning');
-  }
-})
-
 function changeTask(ind) {
   taskHeading.innerHTML = tasks[ind].heading;
   taskInputParameters.innerHTML = tasks[ind].input;
