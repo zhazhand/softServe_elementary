@@ -1,10 +1,10 @@
 function solveTask4(params) {
-  let obj = getParams4(params);
+  clearFormBackground();
 
-  if (obj.status === 'успех') {
-    return checkNumber(obj.element);
+  if (isValid4(params)) {
+    return JSON.stringify(isValid4(params));
   }
-  return JSON.stringify(obj);
+  return checkNumber(params);
 }
 
 //main function
@@ -57,27 +57,24 @@ function findMax(arr) {
   return maxElement
 }
 
-//check input parameters
-function isValidParams4(array) {
+//validate
+function isValid4(params) {
+  let obj = {
+    status: 'неудача'
+  };
   const pattern = /^\d+$/;
 
-  let obj = isValidParamsLength(array, 1);
-
-  if (obj.status === 'успех') {
-    if (!pattern.test(array[0])) {
-      obj.status = 'неудача';
-      obj.reason = 'неверные входные параметры';
-    }
+  if (isEmptyField(params, '')) {
+    obj.reason = failMessage[0];
+    return obj;
   }
-  return obj;
-}
-
-//get input parameters
-function getParams4(arr) {
-  let obj = isValidParams4(arr);
-
-  if (obj.status === 'успех') {
-    obj.element = array[0];
+  if (isEmptyField(params, 0)) {
+    obj.reason = failMessage[1];
+    return obj;
   }
-  return obj;
+  if (isMatchPattern(params, pattern)) {
+    obj.reason = failMessage[2];
+    return obj;
+  }
+  return false;
 }

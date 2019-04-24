@@ -3,12 +3,13 @@ const taskHeading = document.querySelector('h2');
 const taskInputParameters = document.querySelector('.inputParameters>span');
 const taskOutputParameters = document.querySelector('.outputParameters>span');
 const taskStatement = document.querySelector('.statement');
-const inputExample = document.querySelector('.inpExample');
+const inputFields = document.querySelector('form .inputFields');
 const button = document.querySelector('button');
 const result = document.querySelector('.result>pre');
+const form = document.querySelector('form');
 
 let index = 0;
-let parametersOfTask = document.getElementById('inp');
+let parametersOfTask = document.forms.myForm;
 
 changeTask(0);
 
@@ -19,14 +20,15 @@ nav.addEventListener('click', (e) => {
   changeTask(index);
   changeActiveClass(children, 'active', index);
   clearContent(result);
+  localStorage.removeItem('saveArray');
 });
 
 button.addEventListener('click', main);
 
-parametersOfTask.addEventListener('input', (e) => {
-  let str = e.target.value;
-  e.target.value = str.trim();//e.target.value = str.replace(' ', '');
-  button.disabled = str ? null : true;
+form.addEventListener('input',(e)=>{
+  if(e.target.classList.contains('bg-warning')){
+    e.target.classList.remove('bg-warning');
+  }
 })
 
 function changeTask(ind) {
@@ -34,7 +36,7 @@ function changeTask(ind) {
   taskInputParameters.innerHTML = tasks[ind].input;
   taskOutputParameters.innerHTML = tasks[ind].output;
   taskStatement.innerHTML = tasks[ind].statement;
-  inputExample.innerHTML = tasks[ind].inputExample;
+  inputFields.innerHTML = tasks[ind].inputFields;
 }
 
 function changeActiveClass(elems, cl, ind) {
@@ -59,13 +61,17 @@ function getIndex(elem) {
   }
 }
 
-function getParam(str) {
-  return str.split(',');
+function getParam(collection) {
+  let arr = [];
+  for (let i = 0; i < collection.length; i++) {
+    arr.push(collection[i].value);    
+  }
+  return arr;
 }
 
 function main() {
   let res;
-  let params = getParam(parametersOfTask.value);
+  let params = getParam(parametersOfTask);
 
   switch (index) {
     case 0:

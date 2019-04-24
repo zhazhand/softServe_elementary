@@ -1,47 +1,25 @@
 function solveTask2(params) {
-  let obj = getParams(params);
+  clearFormBackground();
 
-  if (obj.status === 'неудача') {
-    return JSON.stringify(obj);
+  if (isValid2(params)) {
+    return JSON.stringify(isValid2(params));
   }
-  return JSON.stringify(compareEnvelopes(obj));
-}
-
-//check input parameters
-function isValidParams2(arr) {
-  const pattern = /^([0-9]*[.])?[0-9]+$/;
-  let obj = isValidParamsLength(arr, 4);
-
-  if (obj.status === 'успех') {
-    for (let i = 0; i < arr.length; i++) {
-      if (!pattern.test(arr[i])) {
-        obj.status = 'неудача';
-        obj.reason = 'неверные входные параметры';
-        break;
-      }
-    }
-
-  }
-  return obj;
+  return JSON.stringify(compareEnvelopes(getParams(params)));
 }
 
 //get input parameters
 function getParams(arr) {
-  let obj = isValidParams2(arr);
+  let data = new Array(2);
 
-  if (obj.status === 'успех') {
-    let data = new Array(2);
-    data[0] = {
-      width: arr[0],
-      height: arr[1]
-    };
-    data[1] = {
-      width: arr[2],
-      height: arr[3]
-    };
-    return data;
-  }
-  return obj;
+  data[0] = {
+    width: arr[0],
+    height: arr[1]
+  };
+  data[1] = {
+    width: arr[2],
+    height: arr[3]
+  };
+  return data;
 }
 
 //main function
@@ -57,7 +35,7 @@ function compareEnvelopes(par) {
     small1 = par[0].width;
   } else {
     small1 = par[0].height;
-    larget1 = par[0].width;
+    large1 = par[0].width;
   }
 
   //the largest size of 2 envelope
@@ -75,5 +53,28 @@ function compareEnvelopes(par) {
     return 1;
   } else {
     return 0;
-  } 
+  }
+}
+
+//validate
+function isValid2(params) {
+  let obj = {
+    status: 'неудача'
+  };
+  const pattern = /^([0-9]*[.])?[0-9]+$/;
+
+
+  if (isEmptyField(params, '')) {
+    obj.reason = failMessage[0];
+    return obj;
+  }
+  if (isEmptyField(params, 0)) {
+    obj.reason = failMessage[1];
+    return obj;
+  }
+  if (isMatchPattern(params, pattern)) {
+    obj.reason = failMessage[2];
+    return obj;
+  }
+  return false;
 }

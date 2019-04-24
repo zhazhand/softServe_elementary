@@ -1,48 +1,48 @@
 function solveTask6(params) {
-  let obj = getParams6(params);
+  clearFormBackground();
 
-  if (obj.status === 'успех') {
-    return getNumSequence(obj.length, obj.max);
+  if (isValid6(params)) {
+    return JSON.stringify(isValid6(params));
   }
-  return JSON.stringify(obj);
+
+  return getNumSequence(params);
 }
 
-//check input parameters
-function isValidParams6(arr) {
+//validate
+function isValid6(params) {
+  let obj = {
+    status: 'неудача'
+  };
   const pattern = /^\d+$/;
-  let obj = isValidParamsLength(arr, 2);
 
-  if (obj.status === 'успех') {
-    if (!pattern.test(arr[0]) || !pattern.test(arr[1])) {
-      obj.status = 'неудача';
-      obj.reason = 'неверные входные параметры';
-    } else {
-      obj = isTooMuchLength(arr[0], 40);
-    }
+  if (isEmptyField(params, '')) {
+    obj.reason = failMessage[0];
+    return obj;
   }
-  return obj;
-}
-
-//get input parameters
-function getParams6(arr) {
-  let obj = isValidParams6(arr);
-
-  if (obj.status === 'успех') {
-    obj.length = arr[0];
-    obj.max = arr[1];
+  if (isEmptyField(params, 0)) {
+    obj.reason = failMessage[1];
+    return obj;
   }
-  return obj;
+  if (isMatchPattern(params, pattern)) {
+    obj.reason = failMessage[2];
+    return obj;
+  }
+  if (isTooMuchLength(params[0], 40)) {
+    obj.reason = `${failMessage[3]} (>40)`;
+    return obj;
+  }
+  return false;
 }
 
 //main function
-function getNumSequence(n, m) {
+function getNumSequence(par) {
 
   let arr = [];
   let i = 1;
 
-  while (arr.length != n) {
+  while (arr.length != par[0]) {
     let tmp = i * i;
-    if (tmp >= m) {
+    if (tmp >= par[1]) {
       arr.push(i);
     }
     i++;

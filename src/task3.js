@@ -1,85 +1,84 @@
 function solveTask3(params) {
-  let data = isValidParams3(params);
-
-  if (data.status === 'неудача') {
-    return JSON.stringify(data);
+  clearFormBackground();
+  let data;
+  if (localStorage.getItem('saveArray')) {
+    data = JSON.parse(localStorage.getItem('saveArray'));
+  } else {
+    data = [];
   }
-  return createArray(data)
+
+  if (isValid3(params, data)) {
+    return JSON.stringify(isValid3(params, data));
+  } else {
+
+    let it = {
+      'vertices': params[0],
+      'a': params[1],
+      'b': params[2],
+      'c': params[3]
+    };
+    data.push(it);
+  }
+  let arrayOfObj = JSON.stringify(data);
+  localStorage.setItem('saveArray', arrayOfObj);
+
+  return `${arrayOfObj}\n${JSON.stringify(createArray(data))}`;
 }
 
 //area of triangle
-function areaOfTriangle(a, b, c) {
+function getAreaOfTriangle(a, b, c) {
   let p = (a + b + c) / 2;
   return Math.sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-//get input data
-function getInputData(arr) {
-  let obj = isValidParamsLength(arr, 4, false);
-  let arrOfData = [];
-
-  if (obj.status === 'успех') {
-    for (let i = 0; i < arr.length; i++) {
-      let index = parseInt(i / 4);
-      let tmp = i + 4;
-      if (!arrOfData[index]) {
-        arrOfData[index] = {};
-      }
-      if (tmp % 4 === 0) {
-        arrOfData[index]['vertices'] = arr[i];
-      } else if (tmp % 4 === 1) {
-        arrOfData[index]['a'] = arr[i];
-      } else if (tmp % 4 === 2) {
-        arrOfData[index]['b'] = arr[i];
-      } else {
-        arrOfData[index]['c'] = arr[i];
-      }
-    }
-
-  } else {
-    obj.status = 'неудача';
-    obj.reason = 'неверные входные параметры';
-    return obj;
-  }
-  return arrOfData;
-}
-
 //check input parameters
-function isValidParams3(par) {
+function isValid3(par, data) {
   const regSide = /^([0-9]*[.])?[0-9]+$/;
   const regTitle = /^[A-Z]{3}$/i;
-  const obj = {
-    status: 'неудача',
-    reason: 'неверные входные параметры'
+  let obj = {
+    status: 'неудача'
+  }
+  let vertices = par.slice(0, 1);
+  let sides = par.slice(1);
+  let tmpArray = data.map(item => item.vertices);
+  tmpArray.push(par[0]);
+
+  if (isEmptyField(par, '')) {
+    obj.reason = failMessage[0];
+    return obj;
+  }
+  if (isEmptyField(par, 0)) {
+    obj.reason = failMessage[1];
+    return obj;
+  }
+  if (isMatchPattern(vertices, regTitle) || isMatchPattern(sides, regSide, 1)) {
+    obj.reason = failMessage[2];
+    return obj;
+  }
+  if (isSameName(vertices, false)) {
+    obj.reason = failMessage[5];
+    return obj;
+  }
+  if (isSameName(tmpArray)) {
+    obj.reason = failMessage[6];
+    return obj;
+  }
+  if (isSides(sides)) {
+    obj.reason = failMessage[7];
+    return obj;
   }
 
-  let data = getInputData(par);
-
-  if (Array.isArray(data)) {
-    for (let i = 0; i < data.length; i++) {
-      let element = data[i];
-      if (!regTitle.test(element.vertices) || !regSide.test(element.a) || !regSide.test(element.b) || !regSide.test(element.c)) {
-        return obj;
-      }
-    }
-    if (checkSameName(data, 'vertices')) {
-      obj.reason = 'совпадают имена вершин';
-      return obj;
-    } else if (checkSides(data)) {
-      obj.reason = 'сумма двух сторон не может быть меньше третьей стороны';
-      return obj;
-    }
-  }
-  return data;
+  return false;
 }
 
-//check unique name
-function checkSameName(arr, property) {
-
+//check unique name (array or string)
+function isSameName(array, flag = true) {
+  let arr = flag ? array : array[0];
   for (let i = 0; i < arr.length; i++) {
-    let unique = arr[i][property].toUpperCase();
+    let unique = arr[i].toUpperCase();
     for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j][property].toUpperCase() === unique) {
+      let tmp = arr[j].toUpperCase();
+      if (tmp === unique) {
         return true;
       }
     }
@@ -88,15 +87,14 @@ function checkSameName(arr, property) {
 }
 
 //check length of sides
-function checkSides(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    let item = arr[i];
-    if (parseFloat(item.a) > (parseFloat(item.b) + parseFloat(item.c)) ||
-      parseFloat(item.b) > (parseFloat(item.a) + parseFloat(item.c)) ||
-      parseFloat(item.c) > (parseFloat(item.b) + parseFloat(item.a))) {
+function isSides(arr) {
+
+    if (parseFloat(arr[0]) >= (parseFloat(arr[1]) + parseFloat(arr[2])) ||
+      parseFloat(arr[1]) >= (parseFloat(arr[2]) + parseFloat(arr[0])) ||
+      parseFloat(arr[2]) >= (parseFloat(arr[1]) + parseFloat(arr[0]))) {
       return true;
     }
-  }
+ 
   return false;
 
 }
@@ -110,12 +108,10 @@ function compareNumeric(a, b) {
 function createArray(par) {
 
   par.forEach(function (parItem) {
-    parItem.area = areaOfTriangle(parItem.a, parItem.b, parItem.c);
+    parItem.area = getAreaOfTriangle(parItem.a, parItem.b, parItem.c);
   });
   par.sort(compareNumeric);
-  let result = par.map(function (parItem) {
-    return parItem.vertices.toUpperCase()
-  })
+  let result = par.map(item => item.vertices.toUpperCase());
   return result
 
 }

@@ -1,10 +1,11 @@
 function solveTask5(params) {
-  let obj = getParams5(params);
+  clearFormBackground();
 
-  if (obj.status === 'успех') {
-    return JSON.stringify(countLuckyTickets(obj));
+  if (isValid5(params)) {
+    return JSON.stringify(isValid5(params))
   }
-  return JSON.stringify(obj);
+
+  return JSON.stringify(countLuckyTickets(params));
 }
 
 //easy way
@@ -30,43 +31,31 @@ function checkHardWay(par) {
 
 }
 
-//count summa
-function getSum(par) {
-  let sum = 0;
-
-  for (let i = 0; i < par.length; i++) {
-    sum += parseInt(par[i]);
-  }
-
-  return sum;
-
-}
-
-//check input parameters
-function isValidParams5(arr) {
+//validate
+function isValid5(params) {
+  let obj = {
+    status: 'неудача'
+  };
   const pattern = /^\d{6}$/;
-  let obj = isValidParamsLength(arr, 2);
 
-  if (obj.status === 'успех') {
-    if (!pattern.test(arr[0]) || !pattern.test(arr[1]) || arr[1] < arr[0]) {
-      obj.status = 'неудача';
-      obj.reason = 'неверные входные параметры';
-    }
+  if (isEmptyField(params, '')) {
+    obj.reason = failMessage[0];
+    return obj;
   }
-  return obj;
-}
-
-//get input parametrs
-function getParams5(arr) {
-  let obj = isValidParams5(arr);
-
-  if (obj.status === 'успех') {
-    obj.min = arr[0];
-    obj.max = arr[1];
+  if (isEmptyField(params, 0)) {
+    obj.reason = failMessage[1];
+    return obj;
   }
-  return obj;
+  if (isMatchPattern(params, pattern)) {
+    obj.reason = failMessage[2];
+    return obj;
+  }
+  if ((params[0]-params[1])>0) {
+    obj.reason = failMessage[4];
+    return obj;
+  }
+  return false;
 }
-
 
 //main function
 function countLuckyTickets(par) {
@@ -74,8 +63,8 @@ function countLuckyTickets(par) {
   let result = {};
   let easyWayAmount = 0;
   let hardWayAmount = 0;
-  let current = parseInt(par.max);
-  let min = parseInt(par.min);
+  let current = parseInt(par[1]);
+  let min = parseInt(par[0]);
 
   while (current >= min) {
     easyWayAmount += checkEasyWay(current);
@@ -85,8 +74,8 @@ function countLuckyTickets(par) {
 
   result.easyMethod = easyWayAmount;
   result.difficultMethod = hardWayAmount;
-  result.message = easyWayAmount > hardWayAmount ? "простой метод победил" : (easyWayAmount < hardWayAmount ? "сложный метод победил" :
-    "оба метода равны");
+  result.message = easyWayAmount > hardWayAmount ? "простой метод победил" :
+    (easyWayAmount < hardWayAmount ? "сложный метод победил" : "оба метода равны");
 
   return result;
 
