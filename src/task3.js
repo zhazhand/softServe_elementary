@@ -51,7 +51,7 @@ function isValid3(par, data) {
     obj.reason = failMessage[1];
     return obj;
   }
-  if (isMatchPattern(vertices, regTitle) || isMatchPattern(sides, regSide, 1)) {
+  if (isMatchPattern(vertices, regTitle) || isMatchPattern(sides, regSide)) {
     obj.reason = failMessage[2];
     return obj;
   }

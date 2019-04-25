@@ -29,22 +29,22 @@ function compareEnvelopes(par) {
   let small2;
 
   //the largest size of 1 envelope
-  if (par[0].height > par[0].width) {
-    large1 = par[0].height;
-    small1 = par[0].width;
+  if (parseFloat(par[0].height) > par[0].width) {
+    large1 = parseFloat(par[0].height);
+    small1 = parseFloat(par[0].width);
   } else {
-    small1 = par[0].height;
-    large1 = par[0].width;
-  }
+    small1 = parseFloat(par[0].height);
+    large1 = parseFloat(par[0].width);
+  }console.log('large1',large1)
 
   //the largest size of 2 envelope
-  if (par[1].height > par[1].width) {
+  if (parseFloat(par[1].height) > par[1].width) {
     large2 = parseFloat(par[1].height);
     small2 = parseFloat(par[1].width);
   } else {
     small2 = parseFloat(par[1].height);
     large2 = parseFloat(par[1].width);
-  }
+  }console.log('large2',large2)
 
   if (large1 > large2 && small1 > small2) {
     return 2;
