@@ -1,5 +1,4 @@
 function solveTask7(params) {
-  clearFormBackground();
 
   if (isValid7(params)) {
     return JSON.stringify(isValid7(params));
@@ -97,4 +96,5 @@ function isValid7(params) {
     obj.reason = failMessage[codeMessage];
     return obj;
   }
+  return false;
 }

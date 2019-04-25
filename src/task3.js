@@ -1,5 +1,5 @@
 function solveTask3(params) {
-  clearFormBackground();
+  
   let data;
   if (localStorage.getItem('saveArray')) {
     data = JSON.parse(localStorage.getItem('saveArray'));

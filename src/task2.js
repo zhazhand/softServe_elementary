@@ -1,5 +1,4 @@
 function solveTask2(params) {
-  clearFormBackground();
 
   if (isValid2(params)) {
     return JSON.stringify(isValid2(params));
