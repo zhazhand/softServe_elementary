@@ -1,5 +1,5 @@
 function solveTask3(params) {
-  
+
   let data;
   if (localStorage.getItem('saveArray')) {
     data = JSON.parse(localStorage.getItem('saveArray'));
@@ -59,7 +59,7 @@ function isValid3(par, data) {
     obj.reason = failMessage[5];
     return obj;
   }
-  if (isSameName(tmpArray)) {
+  if (isSameName(tmpArray, true)) {
     obj.reason = failMessage[6];
     return obj;
   }
@@ -76,8 +76,10 @@ function isSameName(array, flag = true) {
   let arr = flag ? array : array[0];
   for (let i = 0; i < arr.length; i++) {
     let unique = arr[i].toUpperCase();
+      unique = unique.split('').sort().join('');
     for (let j = i + 1; j < arr.length; j++) {
       let tmp = arr[j].toUpperCase();
+        tmp = tmp.split('').sort().join('');
       if (tmp === unique) {
         return true;
       }
@@ -89,12 +91,12 @@ function isSameName(array, flag = true) {
 //check length of sides
 function isSides(arr) {
 
-    if (parseFloat(arr[0]) >= (parseFloat(arr[1]) + parseFloat(arr[2])) ||
-      parseFloat(arr[1]) >= (parseFloat(arr[2]) + parseFloat(arr[0])) ||
-      parseFloat(arr[2]) >= (parseFloat(arr[1]) + parseFloat(arr[0]))) {
-      return true;
-    }
- 
+  if (parseFloat(arr[0]) >= (parseFloat(arr[1]) + parseFloat(arr[2])) ||
+    parseFloat(arr[1]) >= (parseFloat(arr[2]) + parseFloat(arr[0])) ||
+    parseFloat(arr[2]) >= (parseFloat(arr[1]) + parseFloat(arr[0]))) {
+    return true;
+  }
+
   return false;
 
 }
